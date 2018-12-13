@@ -3,7 +3,8 @@ const router     = express.Router();
 const Customer   = require('../models/Customer');
 
 router.get('/customers/:restID', (req, res, next) =>{
-    Customer.findById(req.params.restID)
+    console.log('in customers',req.user, req.params)
+    Customer.find({restaurantID:req.params.restID})//.findById(req.params.restID)
     .then((customerForThisRest) =>{
         res.json(customersForThisRest)
     })
@@ -22,12 +23,13 @@ router.get('/customers/details/:id', (req, res, next) =>{
     })
 })  
 
-router.post('/customers/newCustomer/:restID', (req, res, next) =>{
+router.post('/customers/newCustomer', (req, res, next) =>{
+    console.log(req.user, req.params)
     Customer.create({
         name: req.body.name,
         spending: req.body.spending,
         phone: req.body.phone,
-        restaurantID: req.params.restIDs
+        restaurantID: req.user._id
         // rewards: req.body.rewards
     })
     .then((response) =>{
@@ -39,8 +41,6 @@ router.post('/customers/newCustomer/:restID', (req, res, next) =>{
 })
 
 router.post('/customers/edit/:id', (req, res, next) =>{
-    const rewards  = req.body.rewards;
-    const spending = req.body.spending;
     Customer.findById(req.params.id)
     // figure out how to reset the spending to zero for now since there is only one reward
     // that will have to change later since rewards just keep on adding on (the more a customer comes the )

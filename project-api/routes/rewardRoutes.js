@@ -4,12 +4,13 @@ const router  = express.Router();
 const Reward = require('../models/Reward');
 
 
-router.post('/rewards/newReward/:restID', (req, res, next) =>{
+router.post('/rewards/newReward', (req, res, next) =>{
     Reward.create({
         restaurantName: req.params.restID,
         threshold: req.body.threshold,
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        restaurantID: req.user._id
     })
     .then((response) =>{
         res.json(response)

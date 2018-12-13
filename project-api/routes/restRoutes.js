@@ -57,29 +57,67 @@ router.post('/signup', (req, res, next) =>{
 });
 
 
-router.post('/login', (req, res, next) =>{
-    console.log('----------')
-    passport.authenticate('local', (err, theUser, x) =>{    
-    console.log('the passport authentication is running. the user is =', theUser )
+// router.post('/login', (req, res, next) =>{
+//     console.log('----------')
+//     passport.authenticate('local', (err, theUser, x) =>{    
+//     console.log('the passport authentication is running. the user is =', theUser )
+//         if (err) {
+//             res.json({ message: 'Something went wrong while authenticating the user.'});
+//             return;
+//         }
+
+//         if (!theUser) {
+//             res.json(x);
+//             return;
+//         }
+
+//         req.login(theUser, (err) =>{
+//             if(err) {
+//                 res.json({ message: 'Session save went bad.'});
+//                 return;
+//             }
+//             res.json(theUser);
+//         })
+//     })(req, res, next);
+// })
+
+
+
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, theUser, failureDetails) => {
         if (err) {
-            res.json({ message: 'Something went wrong while authenticating the user.'});
+            res.json({ message: 'Something went wrong authenticating user' });
             return;
         }
-
+    
         if (!theUser) {
-            res.json(x);
+            // "failureDetails" contains the error messages
+            // from our logic in "LocalStrategy" { message: '...' }.
+            console.log('------------ failure', failureDetails);            
+            res.json(failureDetails);
             return;
         }
 
-        req.login(theUser, (err) =>{
-            if(err) {
-                res.json({ message: 'Session save went bad.'});
+        // save user in session
+        req.login(theUser, (err) => {
+            if (err) {
+                res.json({ message: 'Session save went bad.' });
                 return;
             }
+
+            // We are now logged in (that's why we can also send req.user)
             res.json(theUser);
-        })
-    })(req, res, next)
-})
+        });
+    })(req, res, next);
+});
+
+
+
+
+
+
+
+
 
 
 router.post('/logout', (req, res, next) =>{
