@@ -2,11 +2,15 @@ const express    = require('express');
 const router     = express.Router();
 const Customer   = require('../models/Customer');
 
-router.get('/customers/:restID', (req, res, next) =>{
+router.get('/customers', (req, res, next) =>{
     console.log('in customers',req.user, req.params)
-    Customer.find({restaurantID:req.params.restID})//.findById(req.params.restID)
-    .then((customerForThisRest) =>{
-        res.json(customersForThisRest)
+    
+    Customer.find({})//.findById(req.params.restID)
+        .then((customerForThisRest) =>{
+            console.log(customerForThisRest)
+            console.log('in here ')
+            res.json({customerForThisRest})
+            //res.json({ allCustomers: customersForThisRest})
     })
     .catch((err) =>{
         res.json(err);
