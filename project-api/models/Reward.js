@@ -5,7 +5,8 @@ const Schema   = mongoose.Schema;
 const rewardSchema = new Schema({
     threshold: Number,
     name: String,
-    description: String
+    description: String,
+    restaurantID: String
 })
 
 const Reward = mongoose.model('Reward', rewardSchema)

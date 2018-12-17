@@ -20,6 +20,18 @@ router.post('/rewards/newReward', (req, res, next) =>{
     })
 })
 
+router.get('/rewards', (req, res, next)=>{
+    Reward.find({})
+    .then((rewardGotten)=>{
+        console.log('this is the reward that we get back',rewardGotten)
+        res.json({rewardGotten})
+    })
+    .catch((err)=>{
+        res.json(err);
+    })
+})
+
+
 router.post('/rewards/edit/:id', (req, res, next) =>{
     console.log('this log works');
     Reward.findByIdAndUpdate(req.params.id , {
