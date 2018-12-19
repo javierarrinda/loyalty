@@ -45,7 +45,9 @@ router.post('/customers/newCustomer', (req, res, next) =>{
 })
 
 router.post('/customers/edit/:id', (req, res, next) =>{
+    console.log('reqs',req.params, req.body, req.user)
     Customer.findById(req.params.id)
+    // Customer.findOne({_id:req.params.id, restaurantID:req.user._id})
     // figure out how to reset the spending to zero for now since there is only one reward
     // that will have to change later since rewards just keep on adding on (the more a customer comes the )
     .then((theCustomer)=>{
