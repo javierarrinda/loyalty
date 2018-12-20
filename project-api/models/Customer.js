@@ -7,8 +7,7 @@ const customerSchema = new Schema({
     restaurantID: {type: Schema.Types.ObjectId, ref: "Restaurant"},
     name: String,
     spending: Number,
-    phone: Number,
-    rewards: []
+    phone: Number
 })
 
 const Customer = mongoose.model('Customer', customerSchema)

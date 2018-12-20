@@ -3,6 +3,8 @@ const router  = express.Router();
 
 const Reward = require('../models/Reward');
 
+const Customer = require('../models/Customer');
+
 
 router.post('/rewards/newReward', (req, res, next) =>{
     Reward.create({
@@ -32,8 +34,26 @@ router.get('/rewards', (req, res, next)=>{
 })
 
 
-router.post('/rewards/edit/:id', (req, res, next) =>{
-    console.log('this log works');
+router.post('/rewards/approved/:id', (req, res, next) =>{
+    console.log('post rewards edit',req.body, req.params)
+    Reward.findById(req.params.id)
+    .then((response)=>{
+        console.log('response thres',response.threshold)
+        Customer.find({restaurantID: req.user._id, spending: { $gte: response.threshold } })
+        .then((customerResponse)=>{
+            res.json({rewardResponse: response, customerResponse: customerResponse})
+        })
+        .catch((err)=>{
+            res.json(err);
+        })
+    })
+    .catch((err)=>{
+        res.json(err);
+    })
+})
+
+router.post('/rewards/edit/:id', (req, res, next)=>{
+        console.log('this log works');
     Reward.findByIdAndUpdate(req.params.id , {
         threshold: req.body.threshold,
         name: req.body.name,

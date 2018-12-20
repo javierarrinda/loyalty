@@ -23,7 +23,7 @@ require('./config/passport-stuff')
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/to-do-list-api', {useMongoClient: true})
+  .connect(process.env.MONGODB_URI, {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -75,7 +75,7 @@ app.use(passport.session());
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000']
+  origin: ['http://localhost:3000', 'https://lost-in-loyalty.herokuapp.com']
 }));
 // its going to accept requests as long as they come from localhost:3000 which is where I am planning on the running the react app
 
@@ -93,6 +93,8 @@ const rewardRoutes = require('./routes/rewardRoutes');
 app.use('/api', rewardRoutes);
 
 
-
+app.use((req, res, next) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 module.exports = app;
