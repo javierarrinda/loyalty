@@ -17,15 +17,18 @@ router.post('/signup', (req, res, next) =>{
     //     res.status(400).json({ message: 'Please make your password at least 6 characters long for security purposes.' });
     //     return;
     // }
+    console.log(username, password)
   
     Restaurant.findOne({ username }, (err, foundRestaurant) =>{
 
         if(err){
+            console.log('at the beginning')
             res.status(500).json({message: "Username check went bad."});
             return;
         }
 
         if (foundRestaurant) {
+            console.log('username taken')
             res.status(400).json({ message: 'Username taken. Choose another one.' });
             return;
         }
@@ -40,12 +43,16 @@ router.post('/signup', (req, res, next) =>{
   
         aNewRest.save(err =>{
             if (err) {
+                console.log('couldnt save');
                 res.status(400).json({ message: 'Saving user to database went wrong.' });
                 return;
             }
             req.login(aNewRest, (err) => {
 
+                console.log('tryna login')
+
                 if (err) {
+                    console.log('couldnt login')
                     res.status(500).json({ message: 'Login after signup went bad.' });
                     return;
                 }
