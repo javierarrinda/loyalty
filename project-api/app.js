@@ -75,7 +75,7 @@ app.use(passport.session());
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000', 'https://lost-in-loyalty.herokuapp.com']
+  origin: ['http://localhost:3000', 'https://lost-in-loyalty.herokuapp.com/']
 }));
 // its going to accept requests as long as they come from localhost:3000 which is where I am planning on the running the react app
 
