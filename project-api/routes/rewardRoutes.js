@@ -55,9 +55,9 @@ router.post('/rewards/approved/:id', (req, res, next) =>{
 router.post('/rewards/edit/:id', (req, res, next)=>{
         console.log('this log works');
     Reward.findByIdAndUpdate(req.params.id , {
-        threshold: req.body.threshold,
-        name: req.body.name,
-        description: req.body.description
+        threshold: req.body.theThreshold,
+        name: req.body.theName,
+        description: req.body.theDescription
     })
     .then((response)=>{
         console.log('---------', response);
